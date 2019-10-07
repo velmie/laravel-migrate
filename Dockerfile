@@ -2,6 +2,7 @@ FROM php:7.2-cli
 
 RUN apt-get update && \
     apt-get install -y \
+    netcat \
     libsqlite3-dev \
     libpq-dev \
     zlib1g-dev
@@ -25,4 +26,7 @@ WORKDIR /usr/src/lumen
 
 RUN composer install
 
+COPY entrypoint.sh /provision/entrypoint.sh
+
+ENTRYPOINT ["/provision/entrypoint.sh"]
 CMD ["php", "artisan", "migrate", "--force"]
