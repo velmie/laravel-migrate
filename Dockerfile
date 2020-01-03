@@ -9,6 +9,7 @@ RUN apt-get update && \
 
 RUN docker-php-ext-install \
     mbstring \
+    bcmath \
     zip \
     pdo \
     pdo_mysql \
