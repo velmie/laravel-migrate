@@ -1,14 +1,14 @@
-FROM php:7.2-cli
+FROM php:8.0.9-cli
 
 RUN apt-get update && \
     apt-get install -y \
     netcat \
+    libzip-dev \
     libsqlite3-dev \
     libpq-dev \
     zlib1g-dev
 
 RUN docker-php-ext-install \
-    mbstring \
     bcmath \
     zip \
     pdo \

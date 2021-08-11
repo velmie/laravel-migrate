@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-       //
+        //
     }
 
     /**
@@ -24,7 +24,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $migrator = $this->app->make('migrator');
-        $migrator->path("/migrations");
+        $this->loadMigrationsFrom(
+            ["/migrations"]
+        );
     }
 }
