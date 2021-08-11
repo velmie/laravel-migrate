@@ -1,7 +1,7 @@
 # Laravel migrations (based on Lumen)
 
 ### Usage
-`docker run -v "/your/path/to/migrations:/migrations" -e "DB_HOST=host" -e "DB_PORT=3306" -e "DB_DATABASE=example" -e "DB_USERNAME=root" -e "DB_PASSWORD=secret" --rm velmie/laravel-migrate`
+`docker run -v "/your/path/to/migrations:/migrations" -e "DB_HOST=host" -e "DB_PORT=3306" -e "DB_DATABASE=example" -e "DB_USERNAME=root" -e "DB_PASSWORD=secret" --rm velmie/laravel-migrate:1.0.0`
 
 #### Options
 
@@ -13,7 +13,7 @@
     * ```-e "DB_DATABASE=example"``` Specify DB name
     * ```-e "DB_USERNAME=root"``` Specify DB username
     * ```-e "DB_PASSWORD=secret"``` Specify DB password
-* ```velmie/laravel-migrate``` Docker image  to use
+* ```velmie/laravel-migrate:1.0.0``` Docker image  to use
 * ```--rm``` Automatically remove the container when it exits
 
 ### 
