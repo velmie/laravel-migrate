@@ -1,20 +1,27 @@
-FROM php:8.0.9-cli
+FROM alpine:3.11
 
-RUN apt-get update && \
-    apt-get install -y \
-    netcat \
-    libzip-dev \
-    libsqlite3-dev \
-    libpq-dev \
-    zlib1g-dev
+ADD https://php.hernandev.com/key/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
 
-RUN docker-php-ext-install \
-    bcmath \
-    zip \
-    pdo \
-    pdo_mysql \
-    pdo_pgsql \
-    pdo_sqlite
+RUN apk --update-cache add ca-certificates && \
+    echo "https://php.hernandev.com/v3.11/php-8.0" >> /etc/apk/repositories
+
+RUN apk add --update-cache \
+    bash \
+    curl \
+    php8 \
+    php8-bcmath \
+    php8-zip \
+    php8-pdo \
+    php8-pdo_mysql \
+    php8-pdo_pgsql \
+    php8-pdo_sqlite \
+    php8-iconv \
+    php8-mbstring \
+    php8-phar \
+    php8-zlib \
+    php8-dom
+
+RUN ln -sf /usr/bin/php8 /usr/bin/php
 
 # Install composer
 ENV COMPOSER_HOME /composer
