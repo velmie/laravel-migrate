@@ -1,0 +1,35 @@
+name: Publish Docker Image
+
+# Trigger the workflow when a new release is published.
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Log in to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Step 2: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 3: Build and push the Docker image with two tags:
+      #  - "latest"
+      #  - The release tag from the GitHub release event (e.g., "v1.0.0")
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            latest
+            ${{ github.event.release.tag_name }}
