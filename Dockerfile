@@ -19,7 +19,10 @@ RUN apk add --update-cache \
     php82-dom \
     php82-tokenizer \
     php82-xml \
-    php82-xmlwriter
+    php82-xmlwriter \
+    curl \
+    jq \
+    netcat-openbsd
 
 RUN ln -sf /usr/bin/php82 /usr/bin/php
 
