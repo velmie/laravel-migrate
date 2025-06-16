@@ -1,5 +1,4 @@
-
-FROM alpine:3.21
+FROM alpine:3.22
 
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.21/main" >> /etc/apk/repositories
 
