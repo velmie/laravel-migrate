@@ -1,26 +1,26 @@
 FROM alpine:3.22
 
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.21/main" >> /etc/apk/repositories
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.22/main" >> /etc/apk/repositories
 
 RUN apk add --update-cache \
     bash \
-    php82 \
-    php82-bcmath \
-    php82-zip \
-    php82-pdo \
-    php82-pdo_mysql \
-    php82-pdo_pgsql \
-    php82-pdo_sqlite \
-    php82-iconv \
-    php82-mbstring \
-    php82-phar \
-    php82-zlib \
-    php82-dom \
-    php82-tokenizer \
-    php82-xml \
-    php82-xmlwriter
+    php83 \
+    php83-bcmath \
+    php83-zip \
+    php83-pdo \
+    php83-pdo_mysql \
+    php83-pdo_pgsql \
+    php83-pdo_sqlite \
+    php83-iconv \
+    php83-mbstring \
+    php83-phar \
+    php83-zlib \
+    php83-dom \
+    php83-tokenizer \
+    php83-xml \
+    php83-xmlwriter
 
-RUN ln -sf /usr/bin/php82 /usr/bin/php
+RUN ln -sf /usr/bin/php83 /usr/bin/php
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
