@@ -2,7 +2,8 @@ FROM alpine:3.22
 
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.22/main" >> /etc/apk/repositories
 
-RUN apk add --update-cache \
+# update index, upgrade existing packages, and install new packages in one layer
+RUN apk update && apk upgrade --no-cache && apk add --no-cache \
     bash \
     php83 \
     php83-bcmath \
