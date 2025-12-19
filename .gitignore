@@ -5,3 +5,11 @@ Homestead.json
 Homestead.yaml
 .env
 .phpunit.result.cache
+# Ignore macOS metadata files
+.DS_Store
+.DS_Store?
+**/.DS_Store
+**/.DS_Store?
+
+# Ignore VS Code settings
+.vscode/
