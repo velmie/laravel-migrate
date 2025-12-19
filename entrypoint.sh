@@ -31,10 +31,18 @@ if [[ -n "${IDENTITY_ENDPOINT}" && -n "${IDENTITY_HEADER}" ]]; then
     RESOURCE="https://ossrdbms-aad.database.windows.net"
     API_VERSION="2019-08-01"
     
-    echo "Requesting token from: ${IDENTITY_ENDPOINT}?resource=${RESOURCE}&api-version=${API_VERSION}"
+    TOKEN_URL="${IDENTITY_ENDPOINT}?resource=${RESOURCE}&api-version=${API_VERSION}"
+    if [[ -n "${AZURE_CLIENT_ID}" ]]; then
+      TOKEN_URL="${TOKEN_URL}&client_id=${AZURE_CLIENT_ID}"
+      echo "Using AZURE_CLIENT_ID for User Assigned Managed Identity"
+    else
+      echo "No AZURE_CLIENT_ID provided, assuming System Assigned Managed Identity"
+    fi
+
+    echo "Requesting token from: ${TOKEN_URL}"
     # Request token from the Managed Identity endpoint (with more verbose output)
     TOKEN_RESPONSE=$(curl -v -s -H "X-IDENTITY-HEADER: $IDENTITY_HEADER" \
-      "${IDENTITY_ENDPOINT}?resource=${RESOURCE}&api-version=${API_VERSION}" 2>&1)
+      "${TOKEN_URL}" 2>&1)
     
     # Save curl exit status
     CURL_STATUS=$?
