@@ -1,6 +1,6 @@
-FROM alpine:3.22
+FROM alpine:3.23
 
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.22/main" >> /etc/apk/repositories
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.23/main" >> /etc/apk/repositories
 
 # update index, upgrade existing packages, and install new packages in one layer
 RUN apk upgrade --available --no-cache && apk add --no-cache \
@@ -28,7 +28,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 COPY . /usr/src/lumen
 WORKDIR /usr/src/lumen
 
-RUN composer install 
+RUN composer install
 
 COPY entrypoint.sh /provision/entrypoint.sh
 
