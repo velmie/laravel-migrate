@@ -1,7 +1,5 @@
 FROM alpine:3.23
 
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.23/main" >> /etc/apk/repositories
-
 # update index, upgrade existing packages, and install new packages in one layer
 RUN apk upgrade --available --no-cache && apk add --no-cache \
     bash \
