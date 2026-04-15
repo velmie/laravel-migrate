@@ -1,33 +1,52 @@
 name: Publish Docker Image
 
-# Trigger the workflow when a new release is published.
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Log in to Docker Hub
+      - name: Prepare build metadata
+        id: prep
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          IMAGE_NAME: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          if [ "$EVENT_NAME" = "release" ]; then
+            echo "checkout_ref=refs/tags/$RELEASE_TAG" >> "$GITHUB_OUTPUT"
+            {
+              echo "tags<<EOF"
+              echo "$IMAGE_NAME:$RELEASE_TAG"
+              echo "$IMAGE_NAME:latest"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+          else
+            echo "checkout_ref=main" >> "$GITHUB_OUTPUT"
+            {
+              echo "tags<<EOF"
+              echo "$IMAGE_NAME:latest"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.prep.outputs.checkout_ref }}
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Step 2: Checkout the repository
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      # Step 3: Build and push the Docker image with two tags:
-      #  - "latest"
-      #  - The release tag from the GitHub release event (e.g., "v1.0.0")
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: |
-            ${{ github.repository }}:${{ github.event.release.tag_name }}
-            ${{ github.repository }}:latest
+          tags: ${{ steps.prep.outputs.tags }}
