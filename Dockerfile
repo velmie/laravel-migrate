@@ -1,4 +1,4 @@
-FROM alpine:3.23
+FROM alpine:3.24
 
 # update index, upgrade existing packages, and install new packages in one layer
 RUN apk upgrade --available --no-cache && apk add --no-cache \
